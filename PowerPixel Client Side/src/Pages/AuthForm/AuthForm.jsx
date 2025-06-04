@@ -30,7 +30,7 @@ const AuthForm = () => {
         formState: { errors },
         handleSubmit,
         setError,
-        clearErrors,
+        
     } = useForm();
 
     const onSubmit = (data) => {
