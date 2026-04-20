@@ -33,7 +33,7 @@ const getAllProducts = async (query: any) => {
     ];
   }
 
-  //   // 🎯 FILTER BY HARDWARE TYPE (MOST IMPORTANT)
+  //   //  FILTER BY HARDWARE TYPE (MOST IMPORTANT)
   //   if (type) {
   //     filter["specs.type"] = type;
   //   }

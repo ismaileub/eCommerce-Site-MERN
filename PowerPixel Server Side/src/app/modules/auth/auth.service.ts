@@ -1,42 +1,31 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-import bcrypt from "bcryptjs";
 import AppError from "../../errorHelpers/AppError";
-import { createUserTokens } from "../../utils/userTokens";
 import httpStatus from "http-status-codes";
+import { Response } from "express";
+import { createUserTokens } from "../../utils/userTokens";
+import { setAuthCookie } from "../../utils/setCookie";
 import { User } from "../user/user.model";
 
-const credentialsLogin = async (payload: {
-  email: string;
-  password: string;
-}) => {
-  const { email, password } = payload;
+const firebaseSignIn = async (payload: { email: string }, res: Response) => {
+  const { email } = payload;
 
-  const user = await User.findOne({ email }).select("+password");
+  const user = await User.findOne({ email });
 
   if (!user) {
-    throw new AppError(httpStatus.UNAUTHORIZED, "Invalid credentials");
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      "User not found. Please signup first",
+    );
   }
 
-  const isPasswordMatched = await bcrypt.compare(
-    password,
-    user.password as string
-  );
+  const tokens = createUserTokens(user);
 
-  if (!isPasswordMatched) {
-    throw new AppError(httpStatus.UNAUTHORIZED, "Invalid credentials");
-  }
-
-  const tokens = await createUserTokens(user);
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { password: pass, ...userWithoutPassword } = user.toObject();
+  setAuthCookie(res, tokens);
 
   return {
-    user: userWithoutPassword,
-    tokens,
+    user,
   };
 };
 
 export const AuthServices = {
-  credentialsLogin,
+  firebaseSignIn,
 };

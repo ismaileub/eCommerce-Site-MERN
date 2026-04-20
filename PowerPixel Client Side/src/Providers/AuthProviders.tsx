@@ -11,6 +11,7 @@ import {
   type User,
   type UserCredential,
 } from "firebase/auth";
+import useAxiosPublic from "../Hooks/useAxiosPublic";
 
 const auth = getAuth(app);
 
@@ -30,6 +31,7 @@ export const AuthContext = createContext<AuthContextType | null>(null);
 const AuthProviders = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(() => auth.currentUser);
   const [loading, setLoading] = useState(() => auth.currentUser === null);
+  const axiosPublic = useAxiosPublic();
 
   //
 
@@ -59,12 +61,20 @@ const AuthProviders = ({ children }: { children: ReactNode }) => {
     });
   };
 
-  const logOut = () => {
+  const logOut = async () => {
     setLoading(true);
-    return signOut(auth).catch((error) => {
+    try {
+      await axiosPublic.post("/auth/logout");
+    } catch (error) {
+      console.log(error);
+    }
+
+    try {
+      await signOut(auth);
+    } catch (error) {
       setLoading(false);
       throw error;
-    });
+    }
   };
 
   useEffect(() => {

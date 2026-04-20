@@ -11,14 +11,7 @@ const NavBar = () => {
     }
   };
 
-  const { user, logOut, loading } = useAuth();
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        {/* <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500"></div> */}
-      </div>
-    );
-  }
+  const { user, logOut } = useAuth();
 
   const userLabel = user?.displayName || user?.email;
 
@@ -30,8 +23,8 @@ const NavBar = () => {
 
   return (
     <div>
-      <nav>
-        <div className="bg-gray-300 shadow-md py-4 px-4 sm:px-6 flex flex-col sm:flex-row sm:justify-between sm:items-center sticky top-0 z-50 gap-7 sm:space-y-0">
+      <nav className="fixed top-0 left-0 right-0 z-50">
+        <div className="bg-gray-300 shadow-md py-4 px-4 sm:px-6 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-7 sm:space-y-0">
           {/* Top row: Logo and Sign In */}
           <div className="flex justify-between items-center">
             <Link to="/">
@@ -159,6 +152,8 @@ const NavBar = () => {
           </div>
         </div>
       </nav>
+
+      <div className="h-[170px] sm:h-[92px]" />
 
       <div className="hidden lg:block ">
         <dialog id="my_modal_2" className="modal">

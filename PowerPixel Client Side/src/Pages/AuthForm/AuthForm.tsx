@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 import "./AuthForm.css";
-import { FaGoogle } from "react-icons/fa";
 import useAuth from "../../Hooks/useAuth";
 import { useForm, type SubmitHandler } from "react-hook-form";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
 
 type AuthFormValues = {
   name: string;
@@ -19,8 +19,9 @@ type SignInValues = {
 };
 
 const AuthForm = () => {
-  const { createUser, signIn, googleSignIn } = useAuth();
+  const { createUser, signIn, googleSignIn, logOut } = useAuth();
   const navigate = useNavigate();
+  const axiosPublic = useAxiosPublic();
 
   useEffect(() => {
     const signUpButton = document.getElementById("signUp");
@@ -86,13 +87,19 @@ const AuthForm = () => {
     }
 
     createUser(data.email, data.password)
-      .then((result) => {
+      .then(async (result) => {
         const user = result.user;
+
+        await axiosPublic.post("/user/register", {
+          name: data.name,
+          email: data.email,
+        });
+
         console.log(user);
         toast.success("Sign Up successful!");
 
-        // Clear the form fields after successful sign up
         resetSignUp();
+        logOut();
 
         setTimeout(() => {
           const modal = document.getElementById("my_modal_2");
@@ -132,12 +139,17 @@ const AuthForm = () => {
     }
 
     signIn(data.email, data.password)
-      .then((result) => {
+      .then(async (result) => {
         const user = result.user;
-        console.log(user);
+
+        await axiosPublic.post("/auth/signin", {
+          name: user.displayName || data.email.split("@")[0],
+          email: data.email,
+        });
+
+        // console.log(user);
         toast.success("Sign In successful!");
 
-        // Clear the form fields after successful sign in
         resetSignIn();
 
         setTimeout(() => {
@@ -163,29 +175,53 @@ const AuthForm = () => {
   };
 
   const handleGoogleSignIn = () => {
-    googleSignIn().then((result) => {
-      const userInfo = {
-        email: result.user?.email,
-        name: result.user?.displayName,
-      };
+    googleSignIn()
+      .then(async (result) => {
+        const email = result.user?.email;
+        const name = result.user?.displayName || email?.split("@")[0] || "User";
+        const picture = result.user?.photoURL || undefined;
 
-      console.log(userInfo);
-      toast.success("Google Sign-In successful!");
-      setTimeout(() => {
-        const modal = document.getElementById("my_modal_2");
-        if (modal instanceof HTMLDialogElement) {
-          modal.close();
+        if (!email) {
+          throw new Error("Google account email not found");
         }
-        navigate("/");
-      }, 300);
-    });
+
+        try {
+          await axiosPublic.post("/user/register", {
+            name,
+            email,
+            picture,
+          });
+        } catch (error: any) {
+          const message = error?.response?.data?.message;
+          if (message !== "User Already Exist") {
+            throw error;
+          }
+        }
+
+        await axiosPublic.post("/auth/signin", {
+          name,
+          email,
+          picture,
+        });
+
+        toast.success("Google Sign-In successful!");
+        setTimeout(() => {
+          const modal = document.getElementById("my_modal_2");
+          if (modal instanceof HTMLDialogElement) {
+            modal.close();
+          }
+          navigate("/");
+        }, 300);
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error("Google Sign-In failed.");
+      });
   };
 
   return (
     <>
       <div className="auth-container " id="container">
-        <Toaster />
-
         {/* sign up form */}
         <div className="form-container sign-up-container">
           <form onSubmit={handleSubmitSignUp(onSubmitSignUp)}>
