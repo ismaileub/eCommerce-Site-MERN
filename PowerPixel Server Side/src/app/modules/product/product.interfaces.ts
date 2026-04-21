@@ -22,7 +22,8 @@ export type PcComponentType =
   | "motherboard"
   | "ssd"
   | "hdd"
-  | "psu";
+  | "psu"
+  | "laptop";
 
 // =====================
 // SPEC TYPES
@@ -169,6 +170,7 @@ export type PcComponentSpecs =
 // =====================
 
 export interface LaptopSpecs {
+  type: "laptop";
   cpu: string;
   ram: string;
   storage: string;
