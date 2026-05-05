@@ -13,7 +13,7 @@ import b5 from "../../../assets/BannerImg/b5.png";
 
 const Banner = () => {
   return (
-    <div className="mt-10  mx-auto ">
+    <div className="mt-6 sm:mt-10 mx-auto">
       <Swiper
         spaceBetween={30}
         centeredSlides={true}
@@ -26,19 +26,19 @@ const Banner = () => {
         }}
         navigation={true}
         modules={[Autoplay, Pagination, Navigation]}
-        className="mySwiper h-[400px]"
+        className="mySwiper h-[220px] sm:h-[320px] lg:h-[420px] overflow-hidden rounded"
       >
         <SwiperSlide>
-          <img className="w-full rounded h-full " src={b2} alt="Banner 2" />
+          <img className="w-full h-full object-cover" src={b2} alt="Banner 2" />
         </SwiperSlide>
         <SwiperSlide>
-          <img className="w-full h-full rounded" src={b3} alt="Banner 3" />
+          <img className="w-full h-full object-cover" src={b3} alt="Banner 3" />
         </SwiperSlide>
         <SwiperSlide>
-          <img className="w-full h-full rounded " src={b4} alt="Banner 4" />
+          <img className="w-full h-full object-cover" src={b4} alt="Banner 4" />
         </SwiperSlide>
         <SwiperSlide>
-          <img className="w-full h-full rounded " src={b5} alt="Banner 5" />
+          <img className="w-full h-full object-cover" src={b5} alt="Banner 5" />
         </SwiperSlide>
       </Swiper>
     </div>

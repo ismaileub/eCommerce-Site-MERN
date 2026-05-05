@@ -5,12 +5,15 @@ import "./index.css";
 import router from "./Router";
 import AuthProviders from "./Providers/AuthProviders";
 import { Toaster } from "react-hot-toast";
+import CartProviders from "./Providers/CartProviders";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <AuthProviders>
-      <Toaster position="top-center" />
-      <RouterProvider router={router} />
+      <CartProviders>
+        <Toaster position="top-center" />
+        <RouterProvider router={router} />
+      </CartProviders>
     </AuthProviders>
   </React.StrictMode>,
 );

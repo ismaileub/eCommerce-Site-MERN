@@ -25,19 +25,21 @@ const data = [
 
 const ServiceHighlights = () => {
   return (
-    <div className=" w-full flex mx-auto  flex-wrap gap-4 justify-between items-center mt-8">
-      {data.map((item, index) => (
-        <div
-          key={index}
-          className="flex items-center gap-4 bg-white shadow-sm p-4 rounded-md min-w-[250px]"
-        >
-          <div className="bg-red-600 rounded-full p-3">{item.icon}</div>
-          <div>
-            <h4 className="text-lg font-medium">{item.title}</h4>
-            <p className="text-sm text-gray-600">{item.subtitle}</p>
+    <div className="w-full mt-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {data.map((item, index) => (
+          <div
+            key={index}
+            className="flex items-center gap-4 bg-white shadow-sm p-4 rounded-md"
+          >
+            <div className="bg-red-600 rounded-full p-3">{item.icon}</div>
+            <div>
+              <h4 className="text-lg font-medium">{item.title}</h4>
+              <p className="text-sm text-gray-600">{item.subtitle}</p>
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 };

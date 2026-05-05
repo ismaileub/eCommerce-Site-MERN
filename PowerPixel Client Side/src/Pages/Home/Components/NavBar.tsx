@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import AuthForm from "../../AuthForm/AuthForm";
 import useAuth from "../../../Hooks/useAuth";
 import { useState } from "react";
+import useCart from "../../../Hooks/useCart";
 
 const NavBar = () => {
   const navigate = useNavigate();
@@ -24,8 +25,9 @@ const NavBar = () => {
   };
 
   const { user, logOut } = useAuth();
+  const { cartCount } = useCart();
 
-  const userLabel = user?.displayName || user?.email;
+  const userLabel = user?.email;
 
   const handleLogOut = () => {
     logOut().catch((error) => {
@@ -52,18 +54,15 @@ const NavBar = () => {
               {/* Cart for small screens */}
               <Link to="/cart" className="relative">
                 <FaShoppingCart className="text-2xl text-gray-700 hover:text-blue-600" />
-                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
-                  3
-                </span>
+                {user && cartCount > 0 ? (
+                  <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                    {cartCount}
+                  </span>
+                ) : null}
               </Link>
               {/* Sign In / Logout */}
               {user ? (
                 <>
-                  {userLabel ? (
-                    <span className="text-sm font-semibold text-gray-700 max-w-[120px] truncate">
-                      {userLabel}
-                    </span>
-                  ) : null}
                   <button
                     onClick={handleLogOut}
                     type="button"
@@ -124,7 +123,7 @@ const NavBar = () => {
                 />
                 <button
                   type="submit"
-                  className="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                  className="text-white cursor-pointer absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none  font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 "
                 >
                   Search
                 </button>
@@ -136,15 +135,17 @@ const NavBar = () => {
           <div className="hidden sm:flex items-center space-x-4">
             <Link to="/cart" className="relative">
               <FaShoppingCart className="text-2xl text-gray-700 hover:text-blue-600" />
-              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
-                3
-              </span>
+              {user && cartCount > 0 ? (
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                  {cartCount}
+                </span>
+              ) : null}
             </Link>
 
             {user ? (
               <>
                 {userLabel ? (
-                  <span className="text-sm font-semibold text-gray-700 max-w-[180px] truncate">
+                  <span className="text-sm  font-semibold text-gray-700 max-w-[180px] truncate">
                     {userLabel}
                   </span>
                 ) : null}

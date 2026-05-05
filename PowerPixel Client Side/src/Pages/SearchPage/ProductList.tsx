@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import useCart from "../../Hooks/useCart";
 
 interface Product {
   _id: string;
@@ -47,6 +48,8 @@ const getSecondarySpecs = (specs: any): Array<[string, string]> => {
 };
 
 const ProductList: React.FC<ProductListProps> = ({ products }) => {
+  const { addToCart } = useCart();
+
   return (
     <div className="w-full">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 animate-in fade-in duration-500">
@@ -142,10 +145,38 @@ const ProductList: React.FC<ProductListProps> = ({ products }) => {
                         strokeLinecap="round"
                         strokeLinejoin="round"
                         strokeWidth={2}
-                        d="M12 4v16m8-8H4"
+                        d="M14 5l7 7-7 7M21 12H3"
                       />
                     </svg>
                   </Link>
+
+                  <button
+                    type="button"
+                    onClick={() => addToCart(product._id, 1)}
+                    disabled={product.stock === 0}
+                    className={
+                      "p-2 rounded-lg transition-all duration-300 " +
+                      (product.stock === 0
+                        ? "bg-slate-100 text-slate-400 cursor-not-allowed"
+                        : "bg-orange-600 text-white hover:bg-orange-700")
+                    }
+                    aria-label={`Add ${product.title} to cart`}
+                    title={product.stock === 0 ? "Out of stock" : "Add to cart"}
+                  >
+                    <svg
+                      className="w-4 h-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M12 4v16m8-8H4"
+                      />
+                    </svg>
+                  </button>
                 </div>
               </div>
 

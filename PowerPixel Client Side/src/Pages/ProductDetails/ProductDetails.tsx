@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import useCart from "../../Hooks/useCart";
 
 type Product = {
   _id: string;
@@ -40,6 +41,7 @@ const formatSpecValue = (value: unknown) => {
 const ProductDetails = () => {
   const { id } = useParams();
   const axiosPublic = useAxiosPublic();
+  const { addToCart } = useCart();
 
   const [product, setProduct] = useState<Product | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -178,25 +180,41 @@ const ProductDetails = () => {
               </div>
 
               <div className="lg:col-span-7 p-6 md:p-8 border-t lg:border-t-0 lg:border-l border-slate-100">
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-blue-600 text-white">
-                    $
-                    {product.price.toLocaleString(undefined, {
-                      minimumFractionDigits: 2,
-                    })}
-                  </span>
-                  <span
-                    className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border ${
-                      product.stock > 0
-                        ? "bg-emerald-50 text-emerald-700 border-emerald-100"
-                        : "bg-slate-50 text-slate-500 border-slate-100"
-                    }`}
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-blue-600 text-white">
+                      $
+                      {product.price.toLocaleString(undefined, {
+                        minimumFractionDigits: 2,
+                      })}
+                    </span>
+                    <span
+                      className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border ${
+                        product.stock > 0
+                          ? "bg-emerald-50 text-emerald-700 border-emerald-100"
+                          : "bg-slate-50 text-slate-500 border-slate-100"
+                      }`}
+                    >
+                      {product.stock > 0 ? "In Stock" : "Out of Stock"}
+                    </span>
+                    <span className="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-slate-900 text-white">
+                      {product.brand}
+                    </span>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => addToCart(product._id, 1)}
+                    disabled={product.stock === 0}
+                    className={
+                      "shrink-0 px-5 py-3 rounded-2xl text-sm font-extrabold transition-all active:scale-95 " +
+                      (product.stock === 0
+                        ? "bg-slate-100 text-slate-400 cursor-not-allowed"
+                        : "bg-orange-600 text-white hover:bg-orange-700")
+                    }
                   >
-                    {product.stock > 0 ? "In Stock" : "Out of Stock"}
-                  </span>
-                  <span className="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-slate-900 text-white">
-                    {product.brand}
-                  </span>
+                    Add to cart
+                  </button>
                 </div>
 
                 <h1 className="mt-4 text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight leading-tight">
