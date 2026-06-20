@@ -178,7 +178,7 @@ const NavBar = () => {
               </>
             ) : (
               <button
-                onClick={handleLogOut}
+                onClick={openAuthModal}
                 type="button"
                 className="rounded-full border border-cyan-400/20 bg-slate-800/80 px-4 py-2 text-sm font-semibold text-white transition hover:border-cyan-300 hover:bg-slate-700 cursor-pointer text-nowrap"
               >
