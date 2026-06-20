@@ -26,9 +26,11 @@ const AuthForm = () => {
   useEffect(() => {
     const signUpButton = document.getElementById("signUp");
     const signInButton = document.getElementById("signIn");
+    const mobileSignUpButton = document.getElementById("mobileSignUp");
+    const mobileSignInButton = document.getElementById("mobileSignIn");
     const container = document.getElementById("container");
 
-    if (!signUpButton || !signInButton || !container) return;
+    if (!container) return;
 
     const onSignUp = () => {
       container.classList.add("right-panel-active");
@@ -38,12 +40,16 @@ const AuthForm = () => {
       container.classList.remove("right-panel-active");
     };
 
-    signUpButton.addEventListener("click", onSignUp);
-    signInButton.addEventListener("click", onSignIn);
+    signUpButton?.addEventListener("click", onSignUp);
+    signInButton?.addEventListener("click", onSignIn);
+    mobileSignUpButton?.addEventListener("click", onSignUp);
+    mobileSignInButton?.addEventListener("click", onSignIn);
 
     return () => {
-      signUpButton.removeEventListener("click", onSignUp);
-      signInButton.removeEventListener("click", onSignIn);
+      signUpButton?.removeEventListener("click", onSignUp);
+      signInButton?.removeEventListener("click", onSignIn);
+      mobileSignUpButton?.removeEventListener("click", onSignUp);
+      mobileSignInButton?.removeEventListener("click", onSignIn);
     };
   }, []);
 
@@ -262,6 +268,12 @@ const AuthForm = () => {
             )}
             <button className="cursor-pointer">Sign Up</button>
             <p className="auth-helper">We never share your email.</p>
+            <p className="mobile-toggle">
+              Already have an account?{" "}
+              <button type="button" id="mobileSignIn" className="toggle-link">
+                Sign In
+              </button>
+            </p>
           </form>
         </div>
 
@@ -302,6 +314,12 @@ const AuthForm = () => {
             <a href="#">Reset your PowerPixel password</a>
             <button className="cursor-pointer mt-3">Sign In</button>
             <p className="auth-helper">We never share your email.</p>
+            <p className="mobile-toggle">
+              Don&apos;t have an account?{" "}
+              <button type="button" id="mobileSignUp" className="toggle-link">
+                Sign Up
+              </button>
+            </p>
           </form>
         </div>
         <div className="overlay-container">

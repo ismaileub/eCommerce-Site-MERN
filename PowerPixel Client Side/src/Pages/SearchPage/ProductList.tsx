@@ -53,7 +53,7 @@ const ProductList: React.FC<ProductListProps> = ({ products }) => {
   return (
     <div className="w-full">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 animate-in fade-in duration-500">
-        {products.map((product) => {
+        {products?.map((product) => {
           const secondarySpecs = getSecondarySpecs(product.specs);
           const subtitle = secondarySpecs[0]?.[1] || product.specs?.type || "";
           const badgeLabel =
@@ -129,26 +129,6 @@ const ProductList: React.FC<ProductListProps> = ({ products }) => {
                       })}
                     </span>
                   </div>
-
-                  <Link
-                    to={`/product/${product._id}`}
-                    className="p-2 rounded-lg bg-cyan-50 text-cyan-700 hover:bg-cyan-700 hover:text-white transition-all duration-300"
-                    aria-label={`View ${product.title}`}
-                  >
-                    <svg
-                      className="w-4 h-4"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M14 5l7 7-7 7M21 12H3"
-                      />
-                    </svg>
-                  </Link>
 
                   <button
                     type="button"

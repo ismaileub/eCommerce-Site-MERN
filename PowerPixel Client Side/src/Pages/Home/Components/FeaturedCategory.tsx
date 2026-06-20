@@ -118,7 +118,7 @@ const FeaturedCategory = () => {
 
         {/* Tab Header */}
         <div className="flex flex-wrap gap-2 p-1 bg-slate-100 rounded-xl w-fit">
-          {pcTabs.map((tab, index) => {
+          {pcTabs?.map((tab, index) => {
             const isActive = value === index;
             return (
               <button

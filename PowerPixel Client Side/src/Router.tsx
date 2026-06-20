@@ -5,6 +5,7 @@ import AuthForm from "./Pages/AuthForm/AuthForm";
 import SearchPage from "./Pages/SearchPage/SearchPage";
 import ProductDetails from "./Pages/ProductDetails/ProductDetails";
 import Cart from "./Pages/Cart/Cart";
+import Dashboard from "./Pages/Dashboard/Dashboard";
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
       {
         path: "/cart",
         element: <Cart />,
+      },
+      {
+        path: "/dashboard",
+        element: <Dashboard />,
       },
     ],
   },

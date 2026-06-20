@@ -1,4 +1,5 @@
 import { FaShoppingCart } from "react-icons/fa";
+import { HiOutlineSquares2X2 } from "react-icons/hi2";
 import { Link, useNavigate } from "react-router-dom";
 import AuthForm from "../../AuthForm/AuthForm";
 import useAuth from "../../../Hooks/useAuth";
@@ -51,6 +52,16 @@ const NavBar = () => {
               </p>
             </Link>
             <div className="flex items-center space-x-4 sm:hidden">
+              {user ? (
+                <Link
+                  to="/dashboard"
+                  aria-label="Dashboard"
+                  title="Dashboard"
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-cyan-400/20 bg-slate-800/80 text-cyan-200 transition hover:border-cyan-300 hover:bg-slate-700"
+                >
+                  <HiOutlineSquares2X2 className="text-xl" />
+                </Link>
+              ) : null}
               {/* Cart for small screens */}
               <Link to="/cart" className="relative">
                 <FaShoppingCart className="text-2xl text-cyan-300 hover:text-cyan-200" />
@@ -144,6 +155,14 @@ const NavBar = () => {
 
             {user ? (
               <>
+                <Link
+                  to="/dashboard"
+                  aria-label="Dashboard"
+                  title="Dashboard"
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-cyan-400/20 bg-slate-800/80 text-cyan-200 transition hover:border-cyan-300 hover:bg-slate-700"
+                >
+                  <HiOutlineSquares2X2 className="text-lg" />
+                </Link>
                 {userLabel ? (
                   <span className="text-sm font-semibold text-white max-w-[180px] truncate">
                     {userLabel}
@@ -152,16 +171,16 @@ const NavBar = () => {
                 <button
                   onClick={handleLogOut}
                   type="button"
-                  className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:outline-none font-bold rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 text-nowrap cursor-pointer"
+                  className="rounded-full border border-cyan-400/20 bg-slate-800/80 px-4 py-2 text-sm font-semibold text-white transition hover:border-cyan-300 hover:bg-slate-700 cursor-pointer"
                 >
                   Logout
                 </button>
               </>
             ) : (
               <button
-                onClick={openAuthModal}
+                onClick={handleLogOut}
                 type="button"
-                className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:outline-none font-bold rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 text-nowrap cursor-pointer"
+                className="rounded-full border border-cyan-400/20 bg-slate-800/80 px-4 py-2 text-sm font-semibold text-white transition hover:border-cyan-300 hover:bg-slate-700 cursor-pointer text-nowrap"
               >
                 Sign In
               </button>
@@ -172,16 +191,14 @@ const NavBar = () => {
 
       <div className="h-[170px] sm:h-[92px]" />
 
-      <div className="hidden lg:block ">
-        <dialog id="my_modal_2" className="modal">
-          <div className="modal-box  w-full p-0 overflow-visible xl:max-w-[800px] lg:max-w-[600px] xl:max-h-[480px]">
-            <AuthForm />
-          </div>
-          <form method="dialog" className="modal-backdrop">
-            <button>close</button>
-          </form>
-        </dialog>
-      </div>
+      <dialog id="my_modal_2" className="modal">
+        <div className="modal-box w-full p-0 overflow-visible max-w-[95vw] sm:max-w-[600px] lg:max-w-[800px] max-h-[95vh] sm:max-h-[600px] lg:max-h-[480px]">
+          <AuthForm />
+        </div>
+        <form method="dialog" className="modal-backdrop">
+          <button>close</button>
+        </form>
+      </dialog>
 
       {/* k;llllllllllll */}
       <div></div>
