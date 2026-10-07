@@ -1,0 +1,15 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.CartRoutes = void 0;
+const express_1 = require("express");
+const checkAuth_1 = require("../../middlewares/checkAuth");
+const validateRequest_1 = require("../../middlewares/validateRequest");
+const user_interface_1 = require("../user/user.interface");
+const cart_controller_1 = require("./cart.controller");
+const cart_validation_1 = require("./cart.validation");
+const router = (0, express_1.Router)();
+router.get("/", (0, checkAuth_1.checkAuth)(...Object.values(user_interface_1.Role)), cart_controller_1.CartControllers.getMyCart);
+router.post("/items", (0, checkAuth_1.checkAuth)(...Object.values(user_interface_1.Role)), (0, validateRequest_1.validateRequest)(cart_validation_1.CartValidations.addItem), cart_controller_1.CartControllers.addItem);
+router.patch("/items/:itemId", (0, checkAuth_1.checkAuth)(...Object.values(user_interface_1.Role)), (0, validateRequest_1.validateRequest)(cart_validation_1.CartValidations.updateQuantity), cart_controller_1.CartControllers.updateQuantity);
+router.delete("/items/:itemId", (0, checkAuth_1.checkAuth)(...Object.values(user_interface_1.Role)), cart_controller_1.CartControllers.removeItem);
+exports.CartRoutes = router;

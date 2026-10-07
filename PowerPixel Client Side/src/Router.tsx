@@ -7,6 +7,9 @@ import ProductDetails from "./Pages/ProductDetails/ProductDetails";
 import Cart from "./Pages/Cart/Cart";
 import Dashboard from "./Pages/Dashboard/Dashboard";
 
+import NotFound from "./Pages/NotFound/NotFound";
+import ProductManagement from "./Pages/Dashboard/ProductManagement";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -31,6 +34,14 @@ const router = createBrowserRouter([
       {
         path: "/dashboard",
         element: <Dashboard />,
+      },
+      {
+        path: "/dashboard/products",
+        element: <ProductManagement />,
+      },
+      {
+        path: "*",
+        element: <NotFound />,
       },
     ],
   },
